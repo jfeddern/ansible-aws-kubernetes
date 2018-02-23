@@ -15,17 +15,17 @@ ec2_image_centos: ami-337be65c # centos image
 aws_cluster_name: mydevopscluster
 aws_vpc_cidr_block: 10.250.192.0/18
 aws_subnet_public:
-  cidr: "10.250.224.0/20"
-  availability_zone: eu-central-1a
+  - cidr: "10.250.224.0/20"
+    availability_zone: eu-central-1a
 aws_subnet_private:
-  cidr: "10.250.192.0/20"
-  availability_zone: eu-central-1a
+  - cidr: "10.250.192.0/20"
+    availability_zone: eu-central-1a
 
 ###################################
 # Variables for Kubespray
 ###################################
 # Valid bootstrap options (required): ubuntu, coreos, centos, none
-bootstrap_os: ubuntu
+bootstrap_os: centos
 
 #Directory where etcd data stored
 etcd_data_dir: /var/lib/etcd

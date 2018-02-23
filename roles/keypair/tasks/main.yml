@@ -1,0 +1,16 @@
+---
+- name: Generate SSH key
+  user:
+    name: centos
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: ~/.ssh/id_rsa
+
+- name: Create AWS Keypair
+  ec2_key:
+    name: "{{ ec2_keypair }}"
+    key_material: "{{ item }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+  with_file: ~/.ssh/id_rsa.pub

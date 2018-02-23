@@ -3,7 +3,7 @@
 # Variables for AWS
 ###################################
 ec2_region: eu-central-1
-ec2_keypair: mykeypair
+ec2_keypair: mycentoskeypair
 ec2_instance_type: m3.medium
 ec2_instance_profile_name_kube_master: kubernetes-master
 ec2_instance_profile_name_kube_node: kubernetes-node

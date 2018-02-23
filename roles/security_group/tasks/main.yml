@@ -1,0 +1,58 @@
+---
+- name: Create AWS security group for Kubernetes
+  ec2_group:
+    name: "kubernetes-securitygroup-{{ aws_cluster_name }}"
+    description: "Ansible Managed for Kubernetes"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    vpc_id: "{{ vpc_id }}"
+    state: present
+    rules:
+      - proto: -1
+        from_port: 0
+        to_port: 65535
+        cidr_ip: "{{ aws_vpc_cidr_block }}"
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: -1
+        from_port: 0
+        to_port: 65535
+        cidr_ip: 0.0.0.0/0
+    tags:
+      Name: "kubernetes-securitygroup-{{ aws_cluster_name }}"
+  register: kubernetes_sg
+
+- name: Set Security Group Id for Kubernetes
+  set_fact:
+    sg_kubernetes_id: "{{ kubernetes_sg.group_id }}"
+
+- name: Create AWS security group for ELB
+  ec2_group:
+    name: "kubernetes-securitygroup-elb-{{ aws_cluster_name }}"
+    description: "AWS ELB SG"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    vpc_id: "{{ vpc_id }}"
+    state: present
+    rules:
+      - proto: tcp
+        from_port: 6443
+        to_port: 6443
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: tcp
+        from_port: 0
+        to_port: 65535
+        cidr_ip: 0.0.0.0/0
+    tags:
+      Name: "kubernetes-securitygroup-elb-{{ aws_cluster_name }}"
+  register: elb_sg
+
+- name: Set Security Group Id for ELB
+  set_fact:
+    sg_elb_id: "{{ elb_sg.group_id }}"

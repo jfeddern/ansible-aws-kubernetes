@@ -1,0 +1,155 @@
+---
+- name: Create AWS Virtual Private Cloud
+  ec2_vpc_net:
+    name: "kubernetes-vpc-{{ aws_cluster_name }}"
+    state: present
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    cidr_block: "{{ aws_vpc_cidr_block }}"
+    dns_hostnames: yes
+    dns_support: yes
+    tags:
+      Name: "kubernetes-vpc-{{ aws_cluster_name }}"
+  register: vpc
+
+- name: set fact vpc_id
+  set_fact:
+    vpc_id: "{{ vpc.vpc.id }}"
+
+- name: allocate a new elastic IP inside a VPC
+  ec2_eip:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    in_vpc: yes
+    public_ip: yes
+    reuse_existing_ip_allowed: yes
+  register: eip
+
+- name: set fact allocation_id
+  set_fact:
+    allocation_id: "{{ eip.allocation_id }}"
+
+- name: print allocation_id
+  debug:
+    var: allocation_id
+
+- name: Create VPC Internet Gateway
+  ec2_vpc_igw:
+    vpc_id: " {{ vpc_id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    tags:
+      Name: "kubernetes-internetgw-{{ aws_cluster_name }}"
+  register: igw
+  ignore_errors: yes
+
+- name: Gather facts about a filtered list of Internet Gateways
+  ec2_vpc_igw_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+        "tag:Name": "kubernetes-internetgw-{{ aws_cluster_name }}"
+  register: igw_facts
+
+- name: set fact igw_id
+  set_fact:
+    igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
+
+- name: print internet gateway id
+  debug:
+    var: igw_id
+
+- name: Create public VPC Subnet for Kubernetes
+  ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    vpc_id: " {{ vpc_id }}"
+    cidr: "{{ item.cidr }}"
+    az: "{{ item.availability_zone }}"
+    map_public: yes
+    resource_tags:
+      Name: "kubernetes-public-subnet-{{ aws_cluster_name }}"
+      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+  register: kubernetes_public_subnet
+  with_items: "{{ aws_subnet_public }}"
+
+- name: set fact kubernetes_public_subnet
+  set_fact:
+    public_subnet_id: "{{ kubernetes_public_subnet.results[0].subnet.id }}"
+
+- name: print public subnet_id
+  debug:
+    var: public_subnet_id
+
+- name: Create new nat gateway using an allocation-id
+  ec2_vpc_nat_gateway:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    subnet_id: "{{ public_subnet_id }}"
+    allocation_id: "{{ allocation_id }}"
+  register: nat_gateway
+
+- name: Set fact Nat Gateways IDs
+  set_fact:
+    nat_gateway_id: "{{ nat_gateway.nat_gateway_id }}"
+
+- name: Create private VPC Subnet
+  ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    vpc_id: " {{ vpc_id }}"
+    cidr: "{{ item.cidr }}"
+    az: "{{ item.availability_zone }}"
+    resource_tags:
+      Name: "kubernetes-private-subnet-{{ aws_cluster_name }}"
+      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+  register: kubernetes_private_subnet
+  with_items: "{{ aws_subnet_private }}"
+
+- name: set fact kubernetes_private_subnet
+  set_fact:
+    private_subnet_id: "{{ kubernetes_private_subnet.results[0].subnet.id }}"
+
+- name: print private_subnet_id
+  debug:
+    var: private_subnet_id
+
+- name: Set up public subnet route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    tags:
+      Name: "kubernetes-public-routetable-{{ aws_cluster_name }}"
+    subnets: "{{ public_subnet_id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw_id }}"
+  register: public_route_table
+
+- name: Set up NAT-protected route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    tags:
+      Name: "kubernetes-private-routetable-{{ aws_cluster_name }}"
+    subnets: "{{ private_subnet_id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        instance_id: "{{ nat_gateway_id }}"
+  register: nat_route_table

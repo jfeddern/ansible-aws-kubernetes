@@ -38,7 +38,10 @@
               Resource: '*'
             - Action: ['s3:* ']
               Effect: Allow
-              Resource: 'arn:aws:s3:::kubernetes-*'
+              Resource:
+                - 'arn:aws:s3:::kubernetes-*'
+                - 'arn:aws:s3:::repo.eu-central-1.amazonaws.com'
+                - 'arn:aws:s3:::repo.eu-central-1.amazonaws.com/*'
 
 - name: Create IAM role for kubernetes node
   iam:
@@ -70,7 +73,10 @@
           Statement:
             - Action: ['s3:* ']
               Effect: Allow
-              Resource: 'arn:aws:s3:::kubernetes-*'
+              Resource:
+                - 'arn:aws:s3:::kubernetes-*'
+                - 'arn:aws:s3:::repo.eu-central-1.amazonaws.com'
+                - 'arn:aws:s3:::repo.eu-central-1.amazonaws.com/*'
             - Action: ['ec2:Describe* ']
               Effect: Allow
               Resource: '*'

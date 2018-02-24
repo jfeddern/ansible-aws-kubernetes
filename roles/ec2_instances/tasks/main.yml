@@ -45,9 +45,9 @@
     instance_tags:
       Name: "kubernetes-master-{{ aws_cluster_name }}-{{ item }}"
       Cluster: "{{ aws_cluster_name }}"
-      Role: "master, etcd"
+      Role: "master"
       kubernetes.io/cluster/mydevopscluster: "member"
-      kubespray-role: "kube-master, etcd"
+      kubespray-role: "kube-master"
     count: 1
     wait: true
     vpc_subnet_id: "{{ private_subnet_id }}"
@@ -59,7 +59,7 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     filters:
-      "tag:Role": "master, etcd"
+      "tag:Role": "master"
       "instance-state-name": "running"
   register: ec2_master_instances
 
@@ -102,6 +102,27 @@
     wait: yes
   with_items: "{{ kubernetes_master_ids }}"
   ignore_errors: yes
+
+- name: Provision Kubernetes Node Instances
+  ec2:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    keypair: "{{ ec2_keypair }}"
+    group_id: "{{ sg_kubernetes_id }}"
+    instance_type: "{{ ec2_instance_type }}"
+    image: "{{ ec2_image_centos }}"
+    instance_tags:
+      Name: "kubernetes-etcd-{{ aws_cluster_name }}-{{ item }}"
+      Cluster: "{{ aws_cluster_name }}"
+      Role: "etcd"
+      kubernetes.io/cluster/mydevopscluster: "member"
+      kubespray-role: "kube-etcd"
+    count: 1
+    wait: true
+    vpc_subnet_id: "{{ private_subnet_id }}"
+  register: ec2_kubernetes_etcd
+  with_items: "{{ instance_tags }}"
 
 - name: Provision Kubernetes Node Instances
   ec2:

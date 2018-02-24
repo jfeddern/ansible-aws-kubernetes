@@ -46,7 +46,7 @@
       Name: "kubernetes-master-{{ aws_cluster_name }}-{{ item }}"
       Cluster: "{{ aws_cluster_name }}"
       Role: "master, etcd"
-      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+      kubernetes.io/cluster/mydevopscluster: "member"
       kubespray-role: "kube-master, etcd"
     count: 1
     wait: true
@@ -117,7 +117,7 @@
       Name: "kubernetes-node-{{ aws_cluster_name }}-{{ item }}"
       Cluster: "{{ aws_cluster_name }}"
       Role: "worker"
-      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+      kubernetes.io/cluster/mydevopscluster: "member"
       kubespray-role: "kube-node"
     count: 1
     wait: true

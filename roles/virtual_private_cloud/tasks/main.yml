@@ -25,7 +25,6 @@
     state: present
     in_vpc: yes
     public_ip: yes
-    reuse_existing_ip_allowed: yes
   register: eip
 
 - name: set fact allocation_id
@@ -77,7 +76,7 @@
     map_public: yes
     resource_tags:
       Name: "kubernetes-public-subnet-{{ aws_cluster_name }}"
-      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+      kubernetes.io/cluster/mydevopscluster: "member"
   register: kubernetes_public_subnet
   with_items: "{{ aws_subnet_public }}"
 
@@ -114,7 +113,7 @@
     az: "{{ item.availability_zone }}"
     resource_tags:
       Name: "kubernetes-private-subnet-{{ aws_cluster_name }}"
-      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+      kubernetes.io/cluster/mydevopscluster: "member"
   register: kubernetes_private_subnet
   with_items: "{{ aws_subnet_private }}"
 

@@ -17,5 +17,5 @@
         instance_port: 6443
     tags:
       Name: "kubernetes-elb-{{ aws_cluster_name }}"
-      "kubernetes.io/cluster/{{ aws_cluster_name }}": "member"
+      kubernetes.io/cluster/mydevopscluster: "member"
   register: elb

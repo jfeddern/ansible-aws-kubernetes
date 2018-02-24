@@ -4,7 +4,7 @@
 ###################################
 ec2_region: eu-central-1
 ec2_keypair: mycentoskeypair
-ec2_instance_type: t2.medium
+ec2_instance_type: t2.large
 ec2_instance_profile_name_kube_master: kubernetes-master
 ec2_instance_profile_name_kube_node: kubernetes-node
 ec2_image_ubuntu14: ami-93a835fc # ubuntu 14.04 image

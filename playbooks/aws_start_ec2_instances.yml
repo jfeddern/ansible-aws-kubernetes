@@ -1,0 +1,12 @@
+---
+- name: Start EC2 Instances
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    change_state: running
+  vars_files:
+    - ../vars/credentials.yml
+  roles:
+    - gather_facts
+    - ec2_instances_change_state

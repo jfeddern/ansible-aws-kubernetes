@@ -69,12 +69,12 @@ kube_network_plugin: cloud
 # weave's network password for encryption
 # if null then no network encryption
 # you can use --extra-vars to pass the password in command line
-weave_password: test
+# weave_password: test
 
 # Weave uses consensus mode by default
 # Enabling seed mode allow to dynamically add or remove hosts
 # https://www.weave.works/docs/net/latest/ipam/
-weave_mode_seed: false
+# weave_mode_seed: false
 
 # This two variable are automatically changed by the weave's role, do not manually change these values
 # To reset values :
@@ -84,7 +84,7 @@ weave_seed: uninitialized
 weave_peers: uninitialized
 
 # Set the MTU of Weave (default 1376, Jumbo Frames: 8916)
-weave_mtu: 1376
+# weave_mtu: 1376
 
 # Enable kubernetes network policies
 enable_network_policy: false
@@ -115,7 +115,7 @@ kube_proxy_mode: iptables
 
 # DNS configuration.
 # Kubernetes cluster name, also will be used as DNS domain
-cluster_name: mydevops.kubernetes.cluster.local
+cluster_name: mydevopscluster
 # Subdomains of DNS domain to be resolved via /etc/resolv.conf for hostnet pods
 ndots: 2
 # Can be dnsmasq_kubedns, kubedns, manual or none

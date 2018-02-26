@@ -1,0 +1,16 @@
+---
+- name: Gahter ELB Facts
+  ec2_elb_facts:
+    names: "{{ tag_name_kubernetes_elb }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+  register: elb_facts
+
+- name: print elb_facts
+  debug:
+    var: elb_facts
+
+- name: Set elb_name
+  set_fact:
+    elb_name: "{{ elb_facts.elbs|map(attribute='name')|list }}"

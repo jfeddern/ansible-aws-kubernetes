@@ -1,7 +1,7 @@
 ---
 - name: Create AWS Virtual Private Cloud
   ec2_vpc_net:
-    name: "kubernetes-vpc-{{ aws_cluster_name }}"
+    name: "{{ tag_name_kubernetes_vpc }}"
     state: present
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
@@ -10,7 +10,7 @@
     dns_hostnames: yes
     dns_support: yes
     tags:
-      Name: "kubernetes-vpc-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_vpc }}"
   register: vpc
 
 - name: set fact vpc_id
@@ -43,7 +43,7 @@
     ec2_secret_key: "{{ ec2_secret_key }}"
     state: present
     tags:
-      Name: "kubernetes-internetgw-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_internetgateway }}"
   register: igw
   ignore_errors: yes
 
@@ -53,7 +53,7 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     filters:
-        "tag:Name": "kubernetes-internetgw-{{ aws_cluster_name }}"
+        "tag:Name": "{{ tag_name_kubernetes_internetgateway }}"
   register: igw_facts
 
 - name: set fact igw_id
@@ -75,7 +75,7 @@
     az: "{{ item.availability_zone }}"
     map_public: yes
     resource_tags:
-      Name: "kubernetes-public-subnet-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_public_subnet }}"
       kubernetes.io/cluster/mydevopscluster: "member"
   register: kubernetes_public_subnet
   with_items: "{{ aws_subnet_public }}"
@@ -112,7 +112,7 @@
     cidr: "{{ item.cidr }}"
     az: "{{ item.availability_zone }}"
     resource_tags:
-      Name: "kubernetes-private-subnet-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_private_subnet }}"
       kubernetes.io/cluster/mydevopscluster: "member"
   register: kubernetes_private_subnet
   with_items: "{{ aws_subnet_private }}"
@@ -132,7 +132,7 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     tags:
-      Name: "kubernetes-public-routetable-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_public_routetable }}"
     subnets: "{{ public_subnet_id }}"
     routes:
       - dest: 0.0.0.0/0
@@ -146,7 +146,7 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     tags:
-      Name: "kubernetes-private-routetable-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_private_routetable }}"
     subnets: "{{ private_subnet_id }}"
     routes:
       - dest: 0.0.0.0/0

@@ -1,0 +1,34 @@
+---
+- name: Gather Facts about VPC Public Subnet
+  ec2_vpc_subnet_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      "tag:Name": "{{ tag_name_kubernetes_public_subnet }}"
+  register: public_subnet_facts
+
+- name: debug public_subnet_facts
+  debug:
+    var: public_subnet_facts
+
+- name: set fact public_subnet_id
+  set_fact:
+    public_subnet_id: "{{ public_subnet_facts.subnets.0.id }}"
+
+- name: Gather Facts about VPC Private Subnet
+  ec2_vpc_subnet_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      "tag:Name": "{{ tag_name_kubernetes_private_subnet }}"
+  register: private_subnet_facts
+
+- name: debug private_subnet_facts
+  debug:
+    var: private_subnet_facts
+
+- name: set fact public_subnet_id
+  set_fact:
+    private_subnet_id: "{{ private_subnet_facts.subnets.0.id }}"

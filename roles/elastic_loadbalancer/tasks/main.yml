@@ -1,7 +1,7 @@
 ---
 - name: Create new Elastic Loadbalancer for Kubernetes API
   ec2_elb_lb:
-    name: "kubernetes-elb-{{ aws_cluster_name }}"
+    name: "{{ tag_name_kubernetes_elb }}"
     state: present
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
@@ -16,6 +16,6 @@
         instance_protocol: tcp
         instance_port: 6443
     tags:
-      Name: "kubernetes-elb-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_elb }}"
       kubernetes.io/cluster/mydevopscluster: "member"
   register: elb

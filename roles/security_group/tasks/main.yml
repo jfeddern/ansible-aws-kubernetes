@@ -1,7 +1,7 @@
 ---
 - name: Create AWS security group for Kubernetes
   ec2_group:
-    name: "kubernetes-securitygroup-{{ aws_cluster_name }}"
+    name: "{{ tag_name_kubernetes_securitygroup }}"
     description: "Ansible Managed for Kubernetes"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
@@ -23,7 +23,7 @@
         to_port: 65535
         cidr_ip: 0.0.0.0/0
     tags:
-      Name: "kubernetes-securitygroup-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_securitygroup }}"
   register: kubernetes_sg
 
 - name: Set Security Group Id for Kubernetes
@@ -32,7 +32,7 @@
 
 - name: Create AWS security group for ELB
   ec2_group:
-    name: "kubernetes-securitygroup-elb-{{ aws_cluster_name }}"
+    name: "{{ tag_name_kubernetes_elb_securitygroup }}"
     description: "AWS ELB SG"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
@@ -50,7 +50,7 @@
         to_port: 65535
         cidr_ip: 0.0.0.0/0
     tags:
-      Name: "kubernetes-securitygroup-elb-{{ aws_cluster_name }}"
+      Name: "{{ tag_name_kubernetes_elb_securitygroup }}"
   register: elb_sg
 
 - name: Set Security Group Id for ELB

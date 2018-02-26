@@ -4,7 +4,7 @@
 ###################################
 ec2_region: eu-central-1
 ec2_keypair: mycentoskeypair
-ec2_instance_type: t2.large
+ec2_instance_type: m3.medium
 ec2_instance_profile_name_kube_master: kubernetes-master
 ec2_instance_profile_name_kube_node: kubernetes-node
 ec2_image_ubuntu14: ami-93a835fc # ubuntu 14.04 image
@@ -12,7 +12,6 @@ ec2_image_ubuntu16: ami-714f2b1e # ubuntu 16.04 image
 ec2_image_coreos: tbd # coreos image
 ec2_image_centos: ami-337be65c # centos image
 
-aws_cluster_name: mydevopscluster
 aws_vpc_cidr_block: 10.250.192.0/18
 aws_subnet_public:
   - cidr: "10.250.224.0/20"
@@ -20,6 +19,21 @@ aws_subnet_public:
 aws_subnet_private:
   - cidr: "10.250.192.0/20"
     availability_zone: eu-central-1a
+
+aws_cluster_name: mydevopscluster
+tag_name_kubernetes_vpc: "kubernetes-vpc-{{ aws_cluster_name }}"
+tag_name_kubernetes_internetgateway: "kubernetes-internetgw-{{ aws_cluster_name }}"
+tag_name_kubernetes_public_subnet: "kubernetes-public-subnet-{{ aws_cluster_name }}"
+tag_name_kubernetes_private_subnet: "kubernetes-private-subnet-{{ aws_cluster_name }}"
+tag_name_kubernetes_public_routetable: "kubernetes-public-routetable-{{ aws_cluster_name }}"
+tag_name_kubernetes_private_routetable: "kubernetes-private-routetable-{{ aws_cluster_name }}"
+tag_name_kubernetes_securitygroup: "kubernetes-securitygroup-{{ aws_cluster_name }}"
+tag_name_kubernetes_elb_securitygroup: "kubernetes-securitygroup-elb-{{ aws_cluster_name }}"
+tag_name_kubernetes_elb: "kubernetes-elb-{{ aws_cluster_name }}"
+tag_name_kubernetes_bastion: "bastion"
+tag_name_kubernetes_master: "kubernetes-master-{{ aws_cluster_name }}"
+tag_name_kubernetes_node: "kubernetes-node-{{ aws_cluster_name }}"
+tag_name_kubernetes_elb: "kubernetes-elb-{{ aws_cluster_name }}"
 
 ###################################
 # Variables for Kubespray

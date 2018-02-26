@@ -1,0 +1,17 @@
+---
+- name: Gather facts about a filtered list of Internet Gateways
+  ec2_vpc_igw_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+        "tag:Name": "{{ tag_name_kubernetes_internetgateway }}"
+  register: igw_facts
+
+- name: set fact igw_id
+  set_fact:
+    igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
+
+- name: print internet gateway id
+  debug:
+    var: igw_id

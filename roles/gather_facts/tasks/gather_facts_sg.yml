@@ -1,0 +1,34 @@
+---
+- name: Gather Facts about Kubernetes Security-Group
+  ec2_vpc_net_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      "tag:Name": "{{ tag_name_kubernetes_securitygroup }}"
+  register: kubernetes_sg_facts
+
+- name: debug kubernetes_sg_facts
+  debug:
+    var: kubernetes_sg_facts
+
+- name: set fact kubernetes_sg id
+  set_fact:
+    sg_kubernetes_id: "{{ kubernetes_sg_facts.security_groups.id }}"
+
+- name: Gather Facts about Kubernetes ELB Security-Group
+  ec2_vpc_net_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      "tag:Name": "{{ tag_name_kubernetes_elb_securitygroup }}"
+  register: kubernetes_elb_sg_facts
+
+- name: debug kubernetes_elb_sg_facts
+  debug:
+    var: kubernetes_elb_sg_facts
+
+- name: set fact kubernetes_elb_sg id
+  set_fact:
+    sg_elb_id: "{{ kubernetes_elb_sg_facts.security_groups.id }}"

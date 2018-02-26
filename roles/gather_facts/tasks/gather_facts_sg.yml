@@ -14,7 +14,7 @@
 
 - name: set fact kubernetes_sg id
   set_fact:
-    sg_kubernetes_id: "{{ kubernetes_sg_facts.security_groups.id }}"
+    sg_kubernetes_id: "{{ kubernetes_sg_facts.security_groups|map(attribute='group_id')|first }}"
 
 - name: Gather Facts about Kubernetes ELB Security-Group
   ec2_group_facts:
@@ -31,4 +31,4 @@
 
 - name: set fact kubernetes_elb_sg id
   set_fact:
-    sg_elb_id: "{{ kubernetes_elb_sg_facts.security_groups.id }}"
+    sg_elb_id: "{{ kubernetes_elb_sg_facts.security_groups|map(attribute='group_id')|first }}"

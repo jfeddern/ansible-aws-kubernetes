@@ -13,4 +13,4 @@
 
 - name: Set elb_name
   set_fact:
-    elb_name: "{{ elb_facts.elbs|map(attribute='name')|list }}"
+    elb_name: "{{ elb_facts.elbs|map(attribute='name')|first }}"

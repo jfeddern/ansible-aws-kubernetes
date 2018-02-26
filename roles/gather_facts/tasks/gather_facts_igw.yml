@@ -10,7 +10,7 @@
 
 - name: set fact igw_id
   set_fact:
-    igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
+    igw_id: "{{ igw_facts.internet_gateways|map(attribute='internet_gateway_id')|first }}"
 
 - name: print internet gateway id
   debug:

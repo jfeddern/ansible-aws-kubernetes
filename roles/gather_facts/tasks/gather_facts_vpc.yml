@@ -14,4 +14,4 @@
 
 - name: set fact vpc_id
   set_fact:
-    vpc_id: "{{ vpc_facts.vpcs.id | first }}"
+    vpc_id: "{{ vpc_facts.vpcs|map(attribute='id')|first }}"

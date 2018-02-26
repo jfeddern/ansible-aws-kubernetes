@@ -14,7 +14,7 @@
 
 - name: set fact public_subnet_id
   set_fact:
-    public_subnet_id: "{{ public_subnet_facts.subnets.0.id }}"
+    public_subnet_id: "{{ public_subnet_facts.subnets|map(attribute='id')|first }}"
 
 - name: Gather Facts about VPC Private Subnet
   ec2_vpc_subnet_facts:
@@ -31,4 +31,4 @@
 
 - name: set fact public_subnet_id
   set_fact:
-    private_subnet_id: "{{ private_subnet_facts.subnets.0.id }}"
+    private_subnet_id: "{{ private_subnet_facts.subnets|map(attribute='id')|first }}"

@@ -64,3 +64,19 @@
 - name: debug kubernetes_master_ids
   debug:
     var: kubernetes_node_ids
+
+- name: set some data
+  set_fact:
+    kubernetes_node_private_ips: "{{ ec2_node_instances.instances | map(attribute='private_ip_address') | list }}"
+
+- name: debug private ips
+  debug:
+    var: kubernetes_node_private_ips
+
+- name: set some data
+  set_fact:
+    kubernetes_master_private_ips: "{{ ec2_master_instances.instances | map(attribute='private_ip_address') | list }}"
+
+- name: debug private ips
+  debug:
+    var: kubernetes_master_private_ips

@@ -29,7 +29,6 @@ tag_name_kubernetes_public_routetable: "kubernetes-public-routetable-{{ aws_clus
 tag_name_kubernetes_private_routetable: "kubernetes-private-routetable-{{ aws_cluster_name }}"
 tag_name_kubernetes_securitygroup: "kubernetes-securitygroup-{{ aws_cluster_name }}"
 tag_name_kubernetes_elb_securitygroup: "kubernetes-securitygroup-elb-{{ aws_cluster_name }}"
-tag_name_kubernetes_elb: "kubernetes-elb-{{ aws_cluster_name }}"
 tag_name_kubernetes_bastion: "bastion"
 tag_name_kubernetes_master: "kubernetes-master-{{ aws_cluster_name }}"
 tag_name_kubernetes_node: "kubernetes-node-{{ aws_cluster_name }}"

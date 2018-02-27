@@ -56,7 +56,7 @@ bin_dir: /usr/local/bin
 ### LOADBALANCING AND ACCESS MODES
 ## Enable multiaccess to configure etcd clients to access all of the etcd members directly
 ## as the "http://hostX:port, http://hostY:port, ..." and ignore the proxy loadbalancers.
-## This may be the case if clients support and loadbalance multiple etcd servers  natively.
+## This may be the case if clients support and loadbalance multiple etcd servers natively.
 #etcd_multiaccess: true
 
 ### ETCD: disable peer client cert authentication.
@@ -70,18 +70,18 @@ bin_dir: /usr/local/bin
 #  port: 1234
 
 ## Internal loadbalancers for apiservers
-loadbalancer_apiserver_localhost: true
+#loadbalancer_apiserver_localhost: true
 
 ## Local loadbalancer should use this port instead, if defined.
 ## Defaults to kube_apiserver_port (6443)
-nginx_kube_apiserver_port: 8443
+#nginx_kube_apiserver_port: 8443
 
 ### OTHER OPTIONAL VARIABLES
 ## For some things, kubelet needs to load kernel modules.  For example, dynamic kernel services are needed
 ## for mounting persistent volumes into containers.  These may not be loaded by preinstall kubernetes
 ## processes.  For example, ceph and rbd backed volumes.  Set to true to allow kubelet to load kernel
 ## modules.
-kubelet_load_modules: true
+#kubelet_load_modules: false
 
 ## Internal network total size. This is the prefix of the
 ## entire network. Must be unused in your environment.
@@ -102,7 +102,7 @@ kubelet_load_modules: true
 ## If set the possible values are either 'gce', 'aws', 'azure', 'openstack', 'vsphere', or 'external'
 ## When openstack is used make sure to source in the openstack credentials
 ## like you would do when using nova-client before starting the playbook.
-cloud_provider: aws
+#cloud_provider:
 
 ## When azure is used, you need to also set the following variables.
 ## see docs/azure.md for details on how to get these values
@@ -150,13 +150,13 @@ cloud_provider: aws
 
 ## Default packages to install within the cluster, f.e:
 #kpm_packages:
-#  - name: kube-system/grafana
+# - name: kube-system/grafana
 
 ## Certificate Management
 ## This setting determines whether certs are generated via scripts or whether a
 ## cluster of Hashicorp's Vault is started to issue certificates (using etcd
 ## as a backend). Options are "script" or "vault"
-cert_management: script
+#cert_management: script
 
 # Set to true to allow pre-checks to fail and continue deployment
 #ignore_assert_errors: false
@@ -168,4 +168,4 @@ cert_management: script
 #etcd_metrics: basic
 
 # The read-only port for the Kubelet to serve on with no authentication/authorization. Uncomment to enable.
-# kube_read_only_port: 10255
+#kube_read_only_port: 10255

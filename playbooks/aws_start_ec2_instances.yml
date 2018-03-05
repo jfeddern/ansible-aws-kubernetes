@@ -5,6 +5,7 @@
   gather_facts: False
   vars:
     change_state: running
+    current_instance_state: stopped
   vars_files:
     - ../vars/credentials.yml
   roles:

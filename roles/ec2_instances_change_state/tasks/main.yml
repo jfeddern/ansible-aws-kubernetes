@@ -1,5 +1,5 @@
 ---
-- name: Stop all Instances for Kubernetes
+- name: Change state of all Instances for Kubernetes
   ec2:
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"

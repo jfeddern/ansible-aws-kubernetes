@@ -1,10 +1,11 @@
 ---
-- name: Start EC2 Instances
+- name: Stop EC2 Instances
   hosts: localhost
   connection: local
   gather_facts: False
   vars:
     change_state: stopped
+    current_instance_state: running
   vars_files:
     - ../vars/credentials.yml
   roles:

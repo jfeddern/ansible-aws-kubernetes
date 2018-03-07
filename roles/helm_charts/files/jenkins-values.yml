@@ -1,0 +1,99 @@
+Master:
+  Name: jenkins-master
+  Image: "jenkinsci/jenkins"
+  ImageTag: "2.73"
+  ImagePullPolicy: "Always"
+  Component: "jenkins-master"
+  UseSecurity: true
+  AdminUser: admin
+  #AdminPassword: <random>
+  Cpu: "200m"
+  Memory: "256Mi"
+# Set min/max heap here if needed with:
+# JavaOpts: "-Xms512m -Xmx512m"
+  ServicePort: 80
+# For minikube, set this to NodePort, elsewhere use LoadBalancer
+# Use ClusterIP if your setup includes ingress controller
+  ServiceType: LoadBalancer
+# Master Service annotations
+  ServiceAnnotations: {}
+    #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
+# Used to create Ingress record (should used with ServiceType: ClusterIP)
+# HostName: jenkins.radu-matei.com
+# NodePort: <to set explicitly, choose port between 30000-32767
+  ContainerPort: 8080
+  SlaveListenerPort: 50000
+  LoadBalancerSourceRanges:
+  - 0.0.0.0/0
+# List of plugins to be install during Jenkins master start
+  InstallPlugins:
+      - kubernetes:0.11
+      - workflow-aggregator:2.5
+      - workflow-job:2.14.1
+      - credentials-binding:1.13
+      - git:3.5.1
+      - ghprb:1.39.0
+      - blueocean:1.1.6
+# Used to approve a list of groovy functions in pipelines used the script-security plugin. Can be viewed under /scriptApproval
+  ScriptApproval:
+    - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
+    - "new groovy.json.JsonSlurperClassic"
+    - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods leftShift java.util.Map java.util.Map"
+    - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods split java.lang.String"
+# List of groovy init scripts to be executed during Jenkins master start
+  InitScripts:
+#  - |
+#    print 'adding global pipeline libraries, register properties, bootstrap jobs...'
+  CustomConfigMap: false
+  NodeSelector: {}
+  Tolerations: {}
+
+  Ingress:
+    Annotations:
+      kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    TLS:
+      # - secretName: jenkins.cluster.local
+      #   hosts:
+      #     - jenkins.cluster.local
+
+Agent:
+  Enabled: true
+  Image: jenkinsci/jnlp-slave
+  ImageTag: latest
+  Component: "jenkins-slave"
+  Privileged: false
+  Cpu: "200m"
+  Memory: "256Mi"
+  AlwaysPullImage: true
+  volumes:
+    - type: HostPath
+      hostPath: /var/run/docker.sock
+      mountPath: /var/run/docker.sock
+
+Persistence:
+  Enabled: true
+  AccessMode: ReadWriteOnce
+  Size: 2Gi
+  volumes:
+#  - name: nothing
+#    emptyDir: {}
+  mounts:
+#  - mountPath: /var/nothing
+#    name: nothing
+#    readOnly: true
+
+NetworkPolicy:
+  # Enable creation of NetworkPolicy resources.
+  Enabled: false
+  ApiVersion: networking.k8s.io/v1
+
+## Install Default RBAC roles and bindings
+rbac:
+  install: false
+  serviceAccount: default
+  # RBAC api version (currently either v1beta1 or v1alpha1)
+  apiVersion: v1beta1
+  # Cluster role reference
+  roleRef: cluster-admin

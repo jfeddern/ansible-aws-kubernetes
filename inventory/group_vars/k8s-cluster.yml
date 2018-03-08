@@ -64,7 +64,7 @@ kube_users:
 
 # Choose network plugin (cilium, calico, contiv, weave or flannel)
 # Can also be set to 'cloud', which lets the cloud provider setup appropriate routing
-kube_network_plugin: calico
+kube_network_plugin: flannel
 
 # weave's network password for encryption
 # if null then no network encryption
@@ -119,7 +119,7 @@ cluster_name: mydevopscluster.local
 # Subdomains of DNS domain to be resolved via /etc/resolv.conf for hostnet pods
 ndots: 2
 # Can be dnsmasq_kubedns, kubedns, manual or none
-dns_mode: kubedns
+dns_mode: dnsmasq_kubedns
 # Set manual server if using a custom cluster DNS server
 #manual_dns_server: 10.x.x.x
 
@@ -160,13 +160,13 @@ dashboard_enabled: true
 efk_enabled: false
 
 # Helm deployment
-helm_enabled: false
+helm_enabled: true
 
 # Istio deployment
 istio_enabled: false
 
 # Registry deployment
-registry_enabled: false
+registry_enabled: true
 
 # Local volume provisioner deployment
 # deprecated will be removed

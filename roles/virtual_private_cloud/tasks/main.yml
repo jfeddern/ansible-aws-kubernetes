@@ -25,6 +25,7 @@
     state: present
     in_vpc: yes
     public_ip: yes
+    reuse_existing_ip_allowed: yes
   register: eip
 
 - name: set fact allocation_id

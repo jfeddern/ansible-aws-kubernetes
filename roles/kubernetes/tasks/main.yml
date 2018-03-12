@@ -1,0 +1,30 @@
+---
+- name: Copy File for Admin User
+  copy:
+    src: files/admin-user.yml
+    dest: /tmp/admin-user.yml
+    owner: centos
+    group: centos
+    mode: 0644
+
+- name: Copy File for Admin User
+  copy:
+    src: files/clusterrolebinding.yml
+    dest: /tmp/clusterrolebinding.yml
+    owner: centos
+    group: centos
+    mode: 0644
+
+- name: Create Admin User
+  command: "kubectl create -f /tmp/admin-user.yml"
+
+- name: Create Cluster-Role-Binding
+  command: "kubectl create -f /tmp/clusterrolebinding.yml"
+
+- name: Get Admin Token
+  command: "kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')"
+  register: admin_token
+
+- name: print admin token
+  debug:
+    var: admin_token

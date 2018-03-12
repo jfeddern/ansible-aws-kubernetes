@@ -1,1 +1,12 @@
 ---
+- name: Install helm chart for Jenkins
+  helm:
+    chart:
+      name: jenkins
+      version: 0.14.1
+      source:
+        type: repo
+        location: https://kubernetes-charts.storage.googleapis.com
+    state: installed
+    name: my-jenkins
+    namespace: jenkins

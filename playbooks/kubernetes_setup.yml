@@ -2,6 +2,7 @@
 - name: Setup Kubernetes
   hosts: kube-masters[0]
   remote_user: centos
+  gather_facts: False
   roles:
     - kubernetes
     - helm_charts

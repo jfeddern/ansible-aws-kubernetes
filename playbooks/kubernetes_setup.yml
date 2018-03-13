@@ -1,6 +1,6 @@
 ---
 - name: Setup Kubernetes
-  hosts: kube-masters[0]
+  hosts: kube-master[0]
   remote_user: centos
   gather_facts: False
   roles:

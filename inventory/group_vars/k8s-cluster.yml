@@ -115,7 +115,7 @@ kube_proxy_mode: iptables
 
 # DNS configuration.
 # Kubernetes cluster name, also will be used as DNS domain
-cluster_name: mydevopscluster.local
+cluster_name: devopscluster.de
 # Subdomains of DNS domain to be resolved via /etc/resolv.conf for hostnet pods
 ndots: 2
 # Can be dnsmasq_kubedns, kubedns, manual or none

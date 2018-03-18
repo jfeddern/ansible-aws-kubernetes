@@ -54,8 +54,8 @@ spec:
     zone: "{{ ec2_available_zone }}"
   - id: "{{ public_subnet_id }}"
     name: "utility-{{ ec2_available_zone }}"
-    type:
-      Utility zone: "{{ ec2_available_zone }}"
+    type: Utility
+    zone: "{{ ec2_available_zone }}"
   topology:
     bastion:
       bastionPublicName: "bastion.{{ aws_cluster_name }}"

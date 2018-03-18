@@ -11,7 +11,7 @@ spec:
   channel: stable
   cloudProvider: aws
   configBase: "{{ aws_s3_bucket_name }}/{{ aws_cluster_name }}"
-  dnsZone: Z24ZL04U6WYJZ7
+  dnsZone: "{{ private_hosted_zone_id }}"
   etcdClusters:
   - etcdMembers:
     - instanceGroup: "master-{{ ec2_available_zone }}-1"

@@ -3,6 +3,7 @@
 - import_tasks: gather_facts_igw.yml
 - import_tasks: gather_facts_subnets.yml
 - import_tasks: gather_facts_route53.yml
+- import_tasks: gather_facts_nat_gateway.yml
 #- import_tasks: gather_facts_sg.yml
 #- import_tasks: gather_facts_elb.yml
 #- import_tasks: gather_facts_instances.yml

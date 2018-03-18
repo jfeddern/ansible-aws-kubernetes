@@ -7,9 +7,15 @@
     query: hosted_zone
   register: hosted_zones
 
+- name: debug
+  debug:
+    var: hosted_zones
+
 - name: set fact public hosted_zone_id
   set_fact:
-    public_hosted_zone_id: "{{ hosted_zones.HostedZones[0].Id | replace('/hostedzone/', '') }}"
+    public_hosted_zone_id: "{{ item.Id | replace('/hostedzone/', '') }}"
+  with_items: "{{ hosted_zones.HostedZones }}"
+  when: '"api" in item.name'
 
 - name: set fact private hosted_zone_id
   set_fact:

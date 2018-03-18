@@ -15,8 +15,10 @@
   set_fact:
     public_hosted_zone_id: "{{ item.Id | replace('/hostedzone/', '') }}"
   with_items: "{{ hosted_zones.HostedZones }}"
-  when: '"api" in item.name'
+  when: 'item.Config.PrivateZone is false'
 
 - name: set fact private hosted_zone_id
   set_fact:
-    private_hosted_zone_id: "{{ hosted_zones.HostedZones[1].Id | replace('/hostedzone/', '') }}"
+    private_hosted_zone_id: "{{ item.Id | replace('/hostedzone/', '') }}"
+  with_items: "{{ hosted_zones.HostedZones }}"
+  when: 'item.Config.PrivateZone is true'

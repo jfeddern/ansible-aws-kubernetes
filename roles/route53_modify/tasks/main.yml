@@ -26,13 +26,21 @@
   debug:
     var: elb_facts
 
-- name: Set elb_name
-  set_fact:
-    elb_name: "{{ elb_facts.elbs|map(attribute='name')|list }}"
-
-- name: print elb_names
+- name: print elb_facts
   debug:
-    var: elb_name
+    var: elb_facts.elbs[0].name
+
+- name: print elb_facts
+  debug:
+    var: elb_facts.elbs[0].hosted_zone_id
+
+- name: print elb_facts
+  debug:
+    var: elb_facts.elbs[1].name
+
+- name: print elb_facts
+  debug:
+    var: elb_facts.elbs[1].hosted_zone_id
 
 - name: Create Alias Record to ELB in Public Zone
   route53:
@@ -44,5 +52,5 @@
     alias: True
     alias_hosted_zone_id: "{{ item.hosted_zone_id }}"
     alias_evaluate_target_health: False
-  with_items: "{{ elb_facts }}"
+  with_items: "{{ elb_facts.elbs }}"
   when: '"api" in item.name'

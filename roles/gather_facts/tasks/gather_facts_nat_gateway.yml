@@ -9,10 +9,6 @@
       state: ['available']
   register: existing_nat_gateways
 
-- name: print existing_nat_gateways
-  debug:
-    var: existing_nat_gateways
-
 - name: Set fact Nat Gateways IDs
   set_fact:
     nat_gateway_id: "{{ existing_nat_gateways.result[0].nat_gateway_id }}"

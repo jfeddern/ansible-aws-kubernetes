@@ -57,3 +57,45 @@
     alias_evaluate_target_health: False
   with_items: "{{ elb_facts.elbs }}"
   when: '"api" in item.name'
+
+- name: Create Alias Record to ELB in Public Zone
+  route53:
+    command: create
+    zone: "{{ aws_cluster_name }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    hosted_zone_id: "{{ public_hosted_zone_id }}"
+    record: bastion.devopscluster.de
+    type: A
+    value: "{{ item.dns_name }}"
+    alias: True
+    alias_hosted_zone_id: "{{ item.hosted_zone_id }}"
+    alias_evaluate_target_health: False
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"bastion" in item.name'
+
+- name: Delete Alias Record to ELB in Public Zone
+  route53:
+    command: delete
+    zone: "{{ aws_cluster_name }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    hosted_zone_id: "{{ private_hosted_zone_id }}"
+    record: api.devopscluster.de
+    type: A
+    value: "{{ item.dns_name }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"api" in item.name'
+
+- name: Create Alias Record to ELB in Public Zone
+  route53:
+    command: delete
+    zone: "{{ aws_cluster_name }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    hosted_zone_id: "{{ private_hosted_zone_id }}"
+    record: bastion.devopscluster.de
+    type: A
+    value: "{{ item.dns_name }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"bastion" in item.name'

@@ -3,13 +3,12 @@
   hosts: localhost
   connection: local
   gather_facts: False
-  become: yes
-  become_method: sudo
   vars_files:
     - ../vars/credentials.yml
   roles:
-    - iam
+    - keypair
     - virtual_private_cloud
-    - security_group
-    - elastic_loadbalancer
-    - ec2_instances
+    - route53
+    - s3_bucket
+    - prepare_localhost
+    - install_kubernetes

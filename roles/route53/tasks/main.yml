@@ -1,0 +1,20 @@
+---
+- name: Create a public Route53-Zone
+  route53_zone:
+    zone: "{{ aws_cluster_name }}"
+    region: "{{ aws_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    comment: Ansible Managed Public Zone for Kubernetes
+
+- name: Create a private Route53-Zone
+  route53_zone:
+    zone: "{{ aws_cluster_name }}"
+    vpc_id: "{{ vpc_id }}"
+    vpc_region: "{{ aws_region }}"
+    region: "{{ aws_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    comment: Ansible Managed Private Zone for Kubernetes

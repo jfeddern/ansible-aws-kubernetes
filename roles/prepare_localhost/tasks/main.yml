@@ -6,6 +6,12 @@
     update_cache: yes
   with_items: "{{ packages }}"
 
+- name: install python libraries
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ python_libs }}"
+
 - include_tasks: user.yml
 
 - name: Download Kops binaries

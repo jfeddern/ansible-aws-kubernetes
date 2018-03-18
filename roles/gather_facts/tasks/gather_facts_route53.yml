@@ -10,3 +10,7 @@
 - name: debug hosted_zones
   debug:
     var: hosted_zones
+
+- name: set fact private hosted_zone_id
+  set_fact:
+    vpc_id: "{{ hosted_zones.HostedZones|map(attribute='Id')|last }}"

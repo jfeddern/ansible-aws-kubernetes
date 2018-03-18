@@ -1,9 +1,14 @@
 ---
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+
 - name: install packages
   yum:
     name: "{{ item }}"
     state: installed
-    update_cache: yes
   with_items: "{{ packages }}"
 
 - name: install python libraries

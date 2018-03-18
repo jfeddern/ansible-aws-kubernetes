@@ -28,7 +28,7 @@
 
 - name: Set elb_name
   set_fact:
-    elb_name: "{{ elb_facts.elbs|map(attribute='name')|map(attribute='hosted_zone_id')|list }}"
+    elb_name: "{{ elb_facts.elbs|map(attribute='name', attribute='hosted_zone_id')|list }}"
 
 - name: print elb_names
   debug:

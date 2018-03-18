@@ -13,7 +13,7 @@
 
 - name: set fact private hosted_zone_id
   set_fact:
-    private_hosted_zone_id: "{{ hosted_zones.HostedZones[1].Id | replace('/hostedzone/', '') }}"
+    private_hosted_zone_id: "{{ hosted_zones.HostedZones[0].Id | replace('/hostedzone/', '') }}"
 
 - name: debug private hosted zone
   debug:

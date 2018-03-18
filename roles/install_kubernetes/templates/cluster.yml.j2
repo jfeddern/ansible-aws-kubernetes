@@ -1,0 +1,64 @@
+apiVersion: kops/v1alpha2
+kind: Cluster
+metadata:
+  name: "{{ aws_cluster_name }}"
+spec:
+  api:
+    loadBalancer:
+      type: Public
+  authorization:
+    alwaysAllow: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: "{{ aws_s3_bucket_name }}/{{ aws_cluster_name }}"
+  dnsZone: Z24ZL04U6WYJZ7
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: "master-{{ ec2_available_zone }}-1"
+      name: "1"
+    - instanceGroup: "master-{{ ec2_available_zone }}-2"
+      name: "2"
+    - instanceGroup: "master-{{ ec2_available_zone }}-3"
+      name: "3"
+    name: main
+  - etcdMembers:
+    - instanceGroup: "master-{{ ec2_available_zone }}-1"
+      name: "1"
+    - instanceGroup: "master-{{ ec2_available_zone }}-2"
+      name: "2"
+    - instanceGroup: "master-{{ ec2_available_zone }}-3"
+      name: "3"
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: "{{ kubernetes_version }}
+  masterInternalName: "api.internal.{{ aws_cluster_name }}"
+  masterPublicName: "api.{{ aws_cluster_name }}"
+  networkCIDR: "{{ aws_vpc_cidr_block }}"
+  networkID: "{{ vpc_id }}"
+  networking:
+    weave:
+      mtu: 8912
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - id: "{{ private_subnet_id }}"
+    egress: "{{ nat_gateway_id }}"
+    name: "{{ ec2_available_zone }}"
+    type: Private
+    zone: "{{ ec2_available_zone }}"
+  - id: "{{ public_subnet_id }}"
+    name: "utility-{{ ec2_available_zone }}"
+    type:
+      Utility zone: "{{ ec2_available_zone }}"
+  topology:
+    bastion:
+      bastionPublicName: "bastion.{{ aws_cluster_name }}"
+    dns:
+      type: Private
+    masters: private
+    nodes: private

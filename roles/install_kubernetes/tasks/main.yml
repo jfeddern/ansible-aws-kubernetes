@@ -1,1 +1,12 @@
 ---
+- name: Copy Cluster-Configuration-Template
+  template:
+    src: cluster.yml.j2
+    dest: /tmp/cluster.yml
+    mode: 0755
+
+#- name: Configure the cluster from template
+#  shell: "kops create -f /tmp/cluster.yml --name {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }} "
+
+#- name: Create the physical cluster
+#  shell: "kops update cluster {{ aws_cluster_name }} --yes --state {{ aws_s3_bucket_name }}"

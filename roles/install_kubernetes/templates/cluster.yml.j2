@@ -35,7 +35,7 @@ spec:
     legacy: false
   kubernetesApiAccess:
   - 0.0.0.0/0
-  kubernetesVersion: "{{ kubernetes_version }}
+  kubernetesVersion: "{{ kubernetes_version }}"
   masterInternalName: "api.internal.{{ aws_cluster_name }}"
   masterPublicName: "api.{{ aws_cluster_name }}"
   networkCIDR: "{{ aws_vpc_cidr_block }}"

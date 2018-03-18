@@ -15,4 +15,4 @@
 
 - name: Set fact Nat Gateways IDs
   set_fact:
-    nat_gateway_id: "{{ existing_nat_gateways.nat_gateway_id }}"
+    nat_gateway_id: "{{ existing_nat_gateways.result[0].nat_gateway_id }}"

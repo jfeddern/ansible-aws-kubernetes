@@ -1,0 +1,12 @@
+---
+- name: List all hosted zones
+  route53_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    query: hosted_zone
+  register: hosted_zones
+
+- name: debug hosted_zones
+  debug:
+    var: hosted_zones

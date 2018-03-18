@@ -10,6 +10,7 @@ ec2_keypair: mycentoskeypair
 ec2_image_centos: ami-337be65c
 ec2_available_zone: eu-central-1a
 kubernetes_version: 1.8.7
+ec2_node_size: t2.medium
 
 aws_vpc_cidr_block: 10.250.192.0/18
 aws_subnet_public:

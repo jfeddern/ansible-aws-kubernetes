@@ -5,8 +5,11 @@
     dest: /tmp/cluster.yml
     mode: 0755
 
+- name: Create Cluster Configuration
+  shell: "kops create cluster --node-count 3 --master-count 3 --cloud aws --zones {{ ec2_available_zone }} --master-zones {{ ec2_available_zone }} --dns-zone {{ private_hosted_zone_id }} --dns private --node-size {{ ec2_node_size }} --master-size {{ ec2_node_size }} --topology private --networking weave --vpc={{ vpc_id }} --ssh-public-key ~/.ssh/id_rsa.pub --state {{ aws_s3_bucket_name }} --bastion {{ aws_cluster_name }}"
+
 - name: Configure the cluster from template
-  shell: "kops create -f /tmp/cluster.yml --name {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }}"
+  shell: "kops replace -f /tmp/cluster.yml --name {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }}"
 
 - name: Create the physical cluster
   shell: "kops update cluster {{ aws_cluster_name }} --yes --state {{ aws_s3_bucket_name }}"

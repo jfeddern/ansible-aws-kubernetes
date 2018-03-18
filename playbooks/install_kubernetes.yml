@@ -6,6 +6,6 @@
   vars_files:
     - ../vars/credentials.yml
   roles:
-    - aws_gather_facts
+    - gather_facts
     - install_kubernetes
     - route53_modify

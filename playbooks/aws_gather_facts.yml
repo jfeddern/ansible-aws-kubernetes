@@ -7,3 +7,4 @@
     - ../vars/credentials.yml
   roles:
     - gather_facts
+    - route53_modify

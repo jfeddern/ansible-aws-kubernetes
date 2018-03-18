@@ -1,0 +1,43 @@
+---
+- name: List all hosted zones
+  route53_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    query: hosted_zone
+  register: hosted_zones
+
+- name: set fact public hosted_zone_id
+  set_fact:
+    public_hosted_zone_id: "{{ hosted_zones.HostedZones[0].Id | replace('/hostedzone/', '') }}"
+
+- name: set fact private hosted_zone_id
+  set_fact:
+    private_hosted_zone_id: "{{ hosted_zones.HostedZones[1].Id | replace('/hostedzone/', '') }}"
+
+- name: Gahter ELB Facts
+  ec2_elb_facts:
+    names: api.devopscluster.de
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+  register: elb_facts
+
+- name: print elb_facts
+  debug:
+    var: elb_facts
+
+- name: Set elb_name
+  set_fact:
+    elb_name: "{{ elb_facts.elbs|map(attribute='name')|first }}"
+
+#- name: Create Alias Record to ELB in Public Zone
+#  route53:
+#    command: create
+#    zone: foo.com
+#    record: elb.foo.com
+#    type: A
+#    value: "{{ elb_dns_name }}"
+#    alias: True
+#    alias_hosted_zone_id: "{{ public_hosted_zone_id }}"
+#    alias_evaluate_target_health: True

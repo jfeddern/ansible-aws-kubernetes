@@ -1,0 +1,43 @@
+---
+- block:
+  - name: Create admin user group
+    group:
+      name: admin
+      system: yes
+      state: present
+
+  - name: Create user
+    user:
+      name: "{{ aws_user }}"
+      shell: /bin/bash
+      comment: "Ansible management user"
+      home: "/home/{{ aws_user }}"
+      createhome: yes
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+
+  - name: Add user to admin group
+    user:
+      name: "{{ aws_user }}"
+      groups: admin
+      append: yes
+
+  - name: Copy sudoers file
+    command: cp -f /etc/sudoers /etc/sudoers.tmp
+
+  - name: Backup sudoers file
+    command: cp -f /etc/sudoers /etc/sudoers.bak
+
+  - name: Ensure admin group can sudo
+    lineinfile:
+      dest: /etc/sudoers.tmp
+      state: present
+      regexp: '^%admin'
+      line: '%admin ALL=(ALL) NOPASSWD: ALL'
+
+  - name: Replace sudoers file
+    shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
+
+  become: yes
+  become_method: sudo

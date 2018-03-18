@@ -1,0 +1,11 @@
+---
+- name: Setup AWS for Kubernetes Install
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ../vars/credentials.yml
+  roles:
+    - prepare_localhost

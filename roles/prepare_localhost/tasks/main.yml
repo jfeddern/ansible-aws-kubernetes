@@ -1,4 +1,18 @@
 ---
+- name: Update and upgrade yum packages
+  yum:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: install packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ packages }}"
+
+- include_tasks: user.yml
+
 - name: Download Kops binaries
   get_url:
     url: "{{ kops_download_path }}"

@@ -51,7 +51,7 @@
     hosted_zone_id: "{{ public_hosted_zone_id }}"
     record: api.devopscluster.de
     type: A
-    value: "{{ item.name }}"
+    value: "{{ item.dns_name }}"
     alias: True
     alias_hosted_zone_id: "{{ item.hosted_zone_id }}"
     alias_evaluate_target_health: False

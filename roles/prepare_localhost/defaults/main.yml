@@ -1,13 +1,11 @@
 ---
 packages:
     - git
-    - apt-transport-https
     - ca-certificates
     - curl
     - nano
     - wget
     - python-pip
-    - python-netaddr
 
 python_libs:
     - boto

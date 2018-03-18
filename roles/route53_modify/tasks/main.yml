@@ -76,6 +76,22 @@
   with_items: "{{ elb_facts.elbs }}"
   when: '"bastion" in item.name'
 
+- route53:
+    command: get
+    zone: "{{ aws_cluster_name }}"
+    private_zone: yes
+    record: api.devopscluster.de
+    type: A
+  register: rec_api
+
+- route53:
+    command: get
+    zone: "{{ aws_cluster_name }}"
+    private_zone: yes
+    record: bastion.devopscluster.de
+    type: A
+  register: rec_api
+
 - name: Delete Alias Record to ELB in Public Zone
   route53:
     command: delete
@@ -84,7 +100,7 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     hosted_zone_id: "{{ private_hosted_zone_id }}"
-    record: api.devopscluster.de
+    record: "{{ rec_api.set.record }}"
     type: A
     value: "{{ item.dns_name }}"
   with_items: "{{ elb_facts.elbs }}"
@@ -98,7 +114,7 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     hosted_zone_id: "{{ private_hosted_zone_id }}"
-    record: bastion.devopscluster.de
+    record: "{{ rec_api.set.record }}"
     type: A
     value: "{{ item.dns_name }}"
   with_items: "{{ elb_facts.elbs }}"

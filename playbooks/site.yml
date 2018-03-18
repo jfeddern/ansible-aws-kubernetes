@@ -10,5 +10,4 @@
     - virtual_private_cloud
     - route53
     - s3_bucket
-    - prepare_localhost
     - install_kubernetes

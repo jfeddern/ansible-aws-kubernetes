@@ -45,6 +45,7 @@
 - name: Create Alias Record to ELB in Public Zone
   route53:
     command: create
+    overwrite: yes
     zone: "{{ aws_cluster_name }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
@@ -61,6 +62,7 @@
 - name: Create Alias Record to ELB in Public Zone
   route53:
     command: create
+    overwrite: yes
     zone: "{{ aws_cluster_name }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"

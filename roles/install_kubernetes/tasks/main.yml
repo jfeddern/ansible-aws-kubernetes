@@ -11,5 +11,5 @@
 - name: Configure the cluster from template
   shell: "kops replace -f /tmp/cluster.yml --name {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }}"
 
-- name: Create the physical cluster
+- name: Create cluster
   shell: "kops update cluster {{ aws_cluster_name }} --yes --state {{ aws_s3_bucket_name }}"

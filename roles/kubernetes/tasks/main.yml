@@ -1,6 +1,6 @@
 ---
 - name: Check if Cluster is running
-  command: "kops validate cluster {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }}"
+  shell: "kops validate cluster {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }}"
   register: cluster_state
   until: cluster_state.stdout.find('Your cluster {{ aws_cluster_name }} is ready') != -1
   retries: 20
@@ -14,6 +14,9 @@
 
 - name: Create Kubernetes Dashboard
   command: "kubectl create -f {{ kubernetes_dashboard_file }}"
+
+- name: Create Kubernetes Monitoring
+  command: "kubectl create -f {{ kubernetes_monitoring_file }}"
 
 - name: Create Kubernetes External-DNS
   command: "kubectl create -f {{ kubernetes_external_dns_file }}"

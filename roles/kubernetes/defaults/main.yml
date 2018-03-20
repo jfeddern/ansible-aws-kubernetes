@@ -3,3 +3,4 @@ kubernetes_dashboard_file: "https://raw.githubusercontent.com/kubernetes/kops/ma
 kubernetes_admin_user_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops/roles/kubernetes/files/admin-user.yml"
 kubernetes_clusterrolebinding_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops/roles/kubernetes/files/clusterrolebinding.yml"
 kubernetes_external_dns_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops/roles/kubernetes/files/external-dns.yml"
+kubernetes_monitoring_file: "https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.7.0.yaml"

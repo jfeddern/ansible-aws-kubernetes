@@ -11,3 +11,8 @@
 7. git clone https://github.com/jfeddern/ansible-aws-kubernetes.git
 8. aws configure
 9. Run site.yml
+10. Run install_kubernetes.yml
+11. Run kubernetes_setup.yml
+12. Get admin password with ´kops get secrets kube --type secret -oplaintext´
+13. Get Token of admin-user ´kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')´
+14. Login to api ´api.devopscluster.de/ui´

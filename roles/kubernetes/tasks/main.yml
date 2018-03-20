@@ -7,16 +7,16 @@
   delay: 60
 
 - name: Create Admin User
-  command: "kubectl create -f {{ kubernetes_admin_user_file }}"
+  command: "kubectl apply -f {{ kubernetes_admin_user_file }}"
 
 - name: Create Cluster-Role-Binding
-  command: "kubectl create -f {{ kubernetes_clusterrolebinding_file }}"
+  command: "kubectl apply -f {{ kubernetes_clusterrolebinding_file }}"
 
 - name: Create Kubernetes Dashboard
-  command: "kubectl create -f {{ kubernetes_dashboard_file }}"
+  command: "kubectl apply -f {{ kubernetes_dashboard_file }}"
 
 - name: Create Kubernetes Monitoring
-  command: "kubectl create -f {{ kubernetes_monitoring_file }}"
+  command: "kubectl apply -f {{ kubernetes_monitoring_file }}"
 
 - name: Create Kubernetes External-DNS
-  command: "kubectl create -f {{ kubernetes_external_dns_file }}"
+  command: "kubectl apply -f {{ kubernetes_external_dns_file }}"

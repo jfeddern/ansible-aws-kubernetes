@@ -1,30 +1,19 @@
 ---
-- name: Copy File for Admin User
-  copy:
-    src: files/admin-user.yml
-    dest: /tmp/admin-user.yml
-    owner: centos
-    group: centos
-    mode: 0644
+- name: Check if Cluster is running
+  command: "kops validate cluster {{ aws_cluster_name }} --state {{ aws_s3_bucket_name }}"
+  register: cluster_state
+  until: cluster_state.stdout.find('Your cluster {{ aws_cluster_name }} is ready') != -1
+  retries: 20
+  delay: 60
 
-- name: Copy File for Admin User
-  copy:
-    src: files/clusterrolebinding.yml
-    dest: /tmp/clusterrolebinding.yml
-    owner: centos
-    group: centos
-    mode: 0644
+#- name: Create Admin User
+#  command: "kubectl create -f {{ kubernetes_admin_user_file }}"
 
-- name: Create Admin User
-  command: "kubectl create -f /tmp/admin-user.yml"
+#- name: Create Cluster-Role-Binding
+#  command: "kubectl create -f {{ kubernetes_clusterrolebinding_file }}"
 
-- name: Create Cluster-Role-Binding
-  command: "kubectl create -f /tmp/clusterrolebinding.yml"
+#- name: Create Kubernetes Dashboard
+#  command: "kubectl create -f {{ kubernetes_dashboard_file }}"
 
-- name: Get Admin Token
-  command: "kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')"
-  register: admin_token
-
-- name: print admin token
-  debug:
-    var: admin_token
+#- name: Create Kubernetes External-DNS
+#  command: "kubectl create -f {{ kubernetes_external_dns_file }}"

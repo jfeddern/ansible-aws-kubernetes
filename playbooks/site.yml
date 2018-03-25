@@ -8,6 +8,7 @@
   roles:
     - keypair
     - virtual_private_cloud
-    - route53
     - s3_bucket
     - install_kubernetes
+    - route53_modify
+    - kubernetes

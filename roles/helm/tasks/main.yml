@@ -1,0 +1,8 @@
+---
+- name: Download Helm
+  unarchive:
+    src: "{{ helm_download_path }}"
+    dest: "{{ helm_destination }}"
+
+- name: Install Helm
+  shell: "helm init --canary-image"

@@ -1,7 +1,0 @@
----
-- name: Setup Kubernetes
-  hosts: localhost
-  connection: local
-  gather_facts: False
-  roles:
-    - kubernetes

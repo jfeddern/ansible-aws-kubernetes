@@ -3,8 +3,6 @@
   get_url:
     url: "{{ helm_download_path }}"
     dest: /home/centos/
-    owner: root
-    group: root
     mode: 0755
     force: yes
 
@@ -13,5 +11,8 @@
     src: /home/centos/helm-v2.8.2-linux-amd64.tar.gz
     dest: "{{ helm_destination }}"
 
-- name: Install Helm
-  shell: "helm init --canary-image"
+- name: Create Admin User
+  command: kubectl apply -f ../files/tiller-sa.yml
+
+#- name: Install Helm
+#  command: "helm init --service-account tiller"

@@ -10,6 +10,7 @@
   unarchive:
     src: /home/centos/helm-v2.8.2-linux-amd64.tar.gz
     dest: "{{ helm_destination }}"
+  become: true
 
 - name: Create Admin User
   command: kubectl apply -f ../files/tiller-sa.yml

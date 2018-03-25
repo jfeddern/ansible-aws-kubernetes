@@ -1,7 +1,17 @@
 ---
+- name: Download Kops binaries
+  get_url:
+    url: "{{ helm_download_path }}"
+    dest: /home/centos/helm
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  become: true
+
 - name: Download Helm
   unarchive:
-    src: "{{ helm_download_path }}"
+    src: /home/centos/helm
     dest: "{{ helm_destination }}"
 
 - name: Install Helm

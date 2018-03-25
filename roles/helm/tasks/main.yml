@@ -10,12 +10,13 @@
   unarchive:
     src: /home/centos/helm-v2.8.2-linux-amd64.tar.gz
     dest: "{{ helm_unpack_destination }}"
-  become: true
+  become: yes
 
 - name: Copy Helm binary
   copy:
     src: /home/centos/linux-amd64/helm
     dest: "{{ helm_destination }}"
+  become: yes
 
 - name: Create Admin User
   command: "kubectl apply -f {{ helm_serviceaccount }}"

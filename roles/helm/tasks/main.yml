@@ -9,11 +9,16 @@
 - name: Unpack Helm
   unarchive:
     src: /home/centos/helm-v2.8.2-linux-amd64.tar.gz
-    dest: "{{ helm_destination }}"
+    dest: "{{ helm_unpack_destination }}"
   become: true
 
+- name: Copy Helm binary
+  copy:
+    src: /home/centos/linux-amd64/helm
+    dest: "{{ helm_destination }}"
+
 - name: Create Admin User
-  command: kubectl apply -f ../files/tiller-sa.yml
+  command: "kubectl apply -f {{ helm_serviceaccount }}"
 
 #- name: Install Helm
 #  command: "helm init --service-account tiller"

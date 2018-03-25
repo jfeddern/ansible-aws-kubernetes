@@ -1,17 +1,16 @@
 ---
-- name: Download Kops binaries
+- name: Download Helm archive
   get_url:
     url: "{{ helm_download_path }}"
-    dest: /home/centos/helm
+    dest: /home/centos/
     owner: root
     group: root
     mode: 0755
     force: yes
-  become: true
 
-- name: Download Helm
+- name: Unpack Helm
   unarchive:
-    src: /home/centos/helm
+    src: /home/centos/helm-v2.8.2-linux-amd64.tar.gz
     dest: "{{ helm_destination }}"
 
 - name: Install Helm

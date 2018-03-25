@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: False
+  become: true
+  become_method: root
   vars_files:
     - ../vars/credentials.yml
   roles:

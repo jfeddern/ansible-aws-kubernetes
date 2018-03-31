@@ -1,0 +1,89 @@
+---
+- name: Gahter ELB Facts
+  ec2_elb_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+  register: elb_facts
+
+- name: Create Alias Record to ELB in Public Zone
+  route53:
+    command: create
+    overwrite: yes
+    zone: "{{ aws_cluster_name }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    hosted_zone_id: "{{ public_hosted_zone_id }}"
+    record: api.devopscluster.de
+    type: A
+    value: "{{ item.dns_name }}"
+    alias: True
+    alias_hosted_zone_id: "{{ item.hosted_zone_id }}"
+    alias_evaluate_target_health: False
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"api" in item.name'
+
+- name: Create Alias Record to ELB in Public Zone
+  route53:
+    command: create
+    overwrite: yes
+    zone: "{{ aws_cluster_name }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    hosted_zone_id: "{{ public_hosted_zone_id }}"
+    record: bastion.devopscluster.de
+    type: A
+    value: "{{ item.dns_name }}"
+    alias: True
+    alias_hosted_zone_id: "{{ item.hosted_zone_id }}"
+    alias_evaluate_target_health: False
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"bastion" in item.name'
+
+- route53:
+    command: get
+    zone: "{{ aws_cluster_name }}"
+    private_zone: yes
+    record: api.devopscluster.de
+    type: A
+  register: rec_api
+
+- route53:
+    command: get
+    zone: "{{ aws_cluster_name }}"
+    private_zone: yes
+    record: bastion.devopscluster.de
+    type: A
+  register: rec_bastion
+
+- name: Delete Alias Record to ELB in Public Zone
+  route53:
+    command: delete
+    zone: "{{ aws_cluster_name }}"
+    private_zone: yes
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    record: "{{ rec_api.set.record }}"
+    ttl: "{{ rec_api.set.ttl }}"
+    type: "{{ rec_api.set.type }}"
+    value: "{{ rec_api.set.value }}"
+    alias: True
+    alias_hosted_zone_id: "{{ rec_api.set.alias_hosted_zone_id }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"api" in item.name'
+
+- name: Create Alias Record to ELB in Public Zone
+  route53:
+    command: delete
+    zone: "{{ aws_cluster_name }}"
+    private_zone: yes
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    record: "{{ rec_bastion.set.record }}"
+    ttl: "{{ rec_bastion.set.ttl }}"
+    type: "{{ rec_bastion.set.type }}"
+    value: "{{ rec_bastion.set.value }}"
+    alias: True
+    alias_hosted_zone_id: "{{ rec_bastion.set.alias_hosted_zone_id }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: '"bastion" in item.name'

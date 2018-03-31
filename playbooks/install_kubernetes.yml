@@ -1,14 +1,12 @@
 ---
-- name: Setup AWS for Kubernetes Install
+- name: Install and Setup Kubernetes on AWS
   hosts: localhost
   connection: local
   gather_facts: False
   vars_files:
     - ../vars/credentials.yml
   roles:
-    - keypair
-    - virtual_private_cloud
-    - s3_bucket
+    - gather_facts
     - install_kubernetes
     - route53_modify
     - kubernetes

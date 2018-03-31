@@ -8,10 +8,6 @@
       "tag:Name": "{{ tag_name_kubernetes_vpc }}"
   register: vpc_facts
 
-- name: debug vpc_facts
-  debug:
-    var: vpc_facts
-
 - name: set fact vpc_id
   set_fact:
     vpc_id: "{{ vpc_facts.vpcs|map(attribute='id')|first }}"

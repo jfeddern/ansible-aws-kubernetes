@@ -1,0 +1,40 @@
+---
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+
+- name: install packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ packages }}"
+
+- name: install python libraries
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ python_libs }}"
+
+- include_tasks: user.yml
+
+- name: Download Kops binaries
+  get_url:
+    url: "{{ kops_download_path }}"
+    dest: /usr/local/bin/kops
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  become: true
+
+- name: Download Kubectl binaries
+  get_url:
+    url: "{{ kubectl_download_path }}"
+    dest: /usr/local/bin/kubectl
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  become: true

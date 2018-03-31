@@ -1,0 +1,5 @@
+---
+helm_download_path: "https://kubernetes-helm.storage.googleapis.com/helm-v2.8.2-linux-amd64.tar.gz"
+helm_unpack_destination: "/home/centos/"
+helm_destination: "/usr/local/bin/"
+helm_serviceaccount: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops/roles/helm/files/tiller-sa.yml"

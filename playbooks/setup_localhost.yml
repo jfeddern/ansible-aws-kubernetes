@@ -1,0 +1,9 @@
+---
+- name: Setup Localhost
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  become: yes
+  become_method: sudo
+  roles:
+    - prepare_localhost

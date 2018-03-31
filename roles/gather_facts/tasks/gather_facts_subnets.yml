@@ -8,10 +8,6 @@
       "tag:Name": "{{ tag_name_kubernetes_public_subnet }}"
   register: public_subnet_facts
 
-- name: debug public_subnet_facts
-  debug:
-    var: public_subnet_facts
-
 - name: set fact public_subnet_id
   set_fact:
     public_subnet_id: "{{ public_subnet_facts.subnets|map(attribute='id')|first }}"
@@ -24,10 +20,6 @@
     filters:
       "tag:Name": "{{ tag_name_kubernetes_private_subnet }}"
   register: private_subnet_facts
-
-- name: debug private_subnet_facts
-  debug:
-    var: private_subnet_facts
 
 - name: set fact public_subnet_id
   set_fact:

@@ -47,7 +47,7 @@ spec:
         args:
         - --source=service
         - --source=ingress
-        - --domain-filter=external-dns.devopscluster.de
+        - --domain-filter=devopscluster.de
         - --provider=aws
         - --policy=upsert-only
         - --aws-zone-type=public

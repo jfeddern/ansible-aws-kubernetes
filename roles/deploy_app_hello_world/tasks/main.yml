@@ -1,0 +1,3 @@
+---
+- name: Deploy Hello World Application
+  command: "kubectl apply -f {{ deployment_hello_world }}"

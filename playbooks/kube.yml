@@ -6,4 +6,4 @@
   vars_files:
     - ../vars/credentials.yml
   roles:
-    - kubernetes_credentials
+    - deploy_app_hello_world

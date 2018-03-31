@@ -1,0 +1,2 @@
+---
+deployment_hello_world: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/master/roles/deploy_app_hello_world/files/hello-world.yml"

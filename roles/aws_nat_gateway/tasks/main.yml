@@ -18,9 +18,27 @@
       subnet-id: "{{ public_subnet_id }}"
       state: ['available']
   register: available_nat_gateway
-  until: available_nat_gateway.result[0].state.find('available') != -1
+
+- name: debug
+  debug:
+    var: available_nat_gateway
+
+- name: Wait until NAT-Gateway is available
+  ec2_vpc_nat_gateway_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      subnet-id: "{{ public_subnet_id }}"
+      state: ['available']
+  register: available_nat_gateway
+  until: available_nat_gateway.result != ""
   retries: 20
   delay: 20
+
+- name: print available_nat_gateway
+  debug:
+    var: available_nat_gateway
 
 - name: Set fact Nat Gateways IDs
   set_fact:

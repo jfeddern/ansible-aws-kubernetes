@@ -32,7 +32,7 @@
       subnet-id: "{{ public_subnet_id }}"
       state: ['available']
   register: available_nat_gateway
-  until: available_nat_gateway.result != ""
+  until: available_nat_gateway.result.0 is defined
   retries: 20
   delay: 20
 

@@ -1,0 +1,9 @@
+---
+- name: Install and Setup Kubernetes on AWS
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../vars/credentials.yml
+  roles:
+    - kubernetes_credentials

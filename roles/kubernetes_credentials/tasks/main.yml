@@ -1,0 +1,16 @@
+---
+- name: Get Kops Admin Secret
+  shell: "kops get secrets kube --type secret -oplaintext --state {{ kops_state_store }}"
+  register: kops_secret
+
+- name: print secret
+  debug:
+    var: kops_secret
+
+- name: Get Kubernetes Admin Passwort
+  shell: "kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')"
+  register: kubernetes_admin_secret
+
+- name: print kubernetes_admin_secret
+  debug:
+    var: kubernetes_admin_secret

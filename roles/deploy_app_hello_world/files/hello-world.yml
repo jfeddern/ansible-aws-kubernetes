@@ -4,6 +4,7 @@ metadata:
   name: helloworld
   annotations:
     external-dns.alpha.kubernetes.io/hostname: helloworld.external-dns.devopscluster.de.
+    external-dns.alpha.kubernetes.io/ttl: 60
 spec:
   type: LoadBalancer
   ports:

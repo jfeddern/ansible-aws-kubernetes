@@ -2,6 +2,7 @@
 ###################################
 # Variables for AWS
 ###################################
+environment: development
 aws_cluster_name: devopscluster.de
 aws_s3_bucket_name: s3://devopsclusterbucket
 aws_user: centos

@@ -21,5 +21,6 @@
 - name: Create Admin User
   command: "kubectl apply -f {{ helm_serviceaccount }}"
 
-#- name: Install Helm
-#  command: "helm init --service-account tiller"
+- name: Install Helm
+  command: "helm init --service-account tiller"
+

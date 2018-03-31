@@ -13,8 +13,3 @@ python_libs:
     - botocore
     - awscli
     - jinja
-
-kops_version: 1.8.1
-kops_download_path: "https://github.com/kubernetes/kops/releases/download/{{ kops_version }}/kops-linux-amd64"
-kubectl_version: v1.9.4
-kubectl_download_path: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"

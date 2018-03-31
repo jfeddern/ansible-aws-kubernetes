@@ -2,17 +2,10 @@
 ###################################
 # Variables for AWS
 ###################################
-environment: development
+environment: dev
 aws_cluster_name: devopscluster.de
 aws_s3_bucket_name: s3://devopsclusterbucket
 aws_user: centos
-ec2_region: eu-central-1
-ec2_keypair: mycentoskeypair
-ec2_image: ami-337be65c # centos image
-ec2_available_zone: eu-central-1a
-kubernetes_version: 1.8.7
-ec2_node_size: t2.medium
-
 aws_vpc_cidr_block: 10.250.192.0/18
 aws_subnet_public:
   - cidr: "10.250.224.0/20"
@@ -21,11 +14,20 @@ aws_subnet_private:
   - cidr: "10.250.192.0/20"
     availability_zone: eu-central-1a
 
-tag_name_kubernetes_vpc: "kubernetes-vpc-{{ aws_cluster_name }}"
-tag_name_kubernetes_internetgateway: "kubernetes-internetgw-{{ aws_cluster_name }}"
-tag_name_kubernetes_public_subnet: "kubernetes-public-subnet-{{ aws_cluster_name }}"
-tag_name_kubernetes_private_subnet: "kubernetes-private-subnet-{{ aws_cluster_name }}"
-tag_name_kubernetes_public_routetable: "kubernetes-public-routetable-{{ aws_cluster_name }}"
-tag_name_kubernetes_private_routetable: "kubernetes-private-routetable-{{ aws_cluster_name }}"
+ec2_region: eu-central-1
+ec2_keypair: mycentoskeypair
+ec2_image: ami-337be65c # centos image
+ec2_available_zone: eu-central-1a
+ec2_node_size: t2.medium
+ec2_kube_node_count: 3
+ec2_kube_master_count: 3
+kops_state_store: "{{ aws_s3_bucket_name }}/{{ environment }}"
+
+tag_name_kubernetes_vpc: "kubernetes-vpc-{{ environment }}-{{ aws_cluster_name }}"
+tag_name_kubernetes_internetgateway: "kubernetes-internetgw-{{ environment }}-{{ aws_cluster_name }}"
+tag_name_kubernetes_public_subnet: "kubernetes-public-subnet-{{ environment }}-{{ aws_cluster_name }}"
+tag_name_kubernetes_private_subnet: "kubernetes-private-subnet-{{ environment }}-{{ aws_cluster_name }}"
+tag_name_kubernetes_public_routetable: "kubernetes-public-routetable-{{ environment }}-{{ aws_cluster_name }}"
+tag_name_kubernetes_private_routetable: "kubernetes-private-routetable-{{ environment }}-{{ aws_cluster_name }}"
 
 

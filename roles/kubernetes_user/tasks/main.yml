@@ -1,0 +1,6 @@
+---
+- name: Create Admin User
+  command: "kubectl apply -f {{ kubernetes_admin_user_file }}"
+
+- name: Create Cluster-Role-Binding
+  command: "kubectl apply -f {{ kubernetes_clusterrolebinding_file }}"

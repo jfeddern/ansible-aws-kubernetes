@@ -1,0 +1,7 @@
+---
+- name: Check if Cluster is running
+  shell: "kops validate cluster {{ aws_cluster_name }} --state {{ kops_state_store }}"
+  register: cluster_state
+  until: cluster_state.stdout.find('Your cluster {{ aws_cluster_name }} is ready') != -1
+  retries: 20
+  delay: 60

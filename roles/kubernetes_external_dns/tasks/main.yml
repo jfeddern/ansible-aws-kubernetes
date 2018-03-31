@@ -1,0 +1,3 @@
+---
+- name: Create Kubernetes External-DNS
+  command: "kubectl apply -f {{ kubernetes_external_dns_file }}"

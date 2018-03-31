@@ -1,0 +1,20 @@
+---
+- name: Download Kops binaries
+  get_url:
+    url: "{{ kops_download_path }}"
+    dest: /usr/local/bin/kops
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  become: true
+
+- name: Download Kubectl binaries
+  get_url:
+    url: "{{ kubectl_download_path }}"
+    dest: /usr/local/bin/kubectl
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  become: true

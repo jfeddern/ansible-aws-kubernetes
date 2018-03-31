@@ -10,7 +10,7 @@
     user:
       name: "{{ aws_user }}"
       shell: /bin/bash
-      comment: "Ansible management user"
+      comment: "Ansible managed user"
       home: "/home/{{ aws_user }}"
       createhome: yes
       generate_ssh_key: yes

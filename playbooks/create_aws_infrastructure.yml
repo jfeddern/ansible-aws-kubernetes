@@ -1,0 +1,15 @@
+---
+- name: Setup AWS Infrastructure for Kubernetes
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../vars/credentials.yml
+  roles:
+    - aws_vpc
+    - aws_internet_gateway
+    - aws_subnets
+    - aws_nat_gateway
+    - aws_route_tables
+    - aws_s3_bucket
+    - aws_keypair

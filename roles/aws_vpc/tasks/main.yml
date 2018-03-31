@@ -1,0 +1,34 @@
+---
+- name: Create AWS Virtual Private Cloud
+  ec2_vpc_net:
+    name: "{{ tag_name_kubernetes_vpc }}"
+    state: present
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    cidr_block: "{{ aws_vpc_cidr_block }}"
+    dns_hostnames: yes
+    dns_support: yes
+    tags:
+      Name: "{{ tag_name_kubernetes_vpc }}"
+      Environment: "{{ environment }}"
+  register: vpc
+
+- name: set fact vpc_id
+  set_fact:
+    vpc_id: "{{ vpc.vpc.id }}"
+
+- name: allocate a new elastic IP inside a VPC
+  ec2_eip:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    in_vpc: yes
+    public_ip: yes
+    reuse_existing_ip_allowed: yes
+  register: eip
+
+- name: set fact allocation_id
+  set_fact:
+    allocation_id: "{{ eip.allocation_id }}"

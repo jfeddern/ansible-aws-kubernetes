@@ -1,14 +1,3 @@
 ---
-- name: Setup AWS for Kubernetes Install
-  hosts: localhost
-  connection: local
-  gather_facts: False
-  vars_files:
-    - ../vars/credentials.yml
-  roles:
-    - keypair
-    - virtual_private_cloud
-    - s3_bucket
-    - install_kubernetes
-    - route53_modify
-    - kubernetes
+import_playbooks: create_aws_infrastructure.yml
+import_playbooks: install_kubernetes.yml

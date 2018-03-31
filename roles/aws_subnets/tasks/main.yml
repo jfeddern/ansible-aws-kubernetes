@@ -1,0 +1,39 @@
+---
+- name: Create public VPC Subnet for Kubernetes
+  ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    vpc_id: " {{ vpc_id }}"
+    cidr: "{{ item.cidr }}"
+    az: "{{ item.availability_zone }}"
+    map_public: yes
+    resource_tags:
+      Name: "{{ tag_name_kubernetes_public_subnet }}"
+      Environment: "{{ environment }}"
+  register: kubernetes_public_subnet
+  with_items: "{{ aws_subnet_public }}"
+
+- name: set fact kubernetes_public_subnet
+  set_fact:
+    public_subnet_id: "{{ kubernetes_public_subnet.results[0].subnet.id }}"
+
+- name: Create private VPC Subnet
+  ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    vpc_id: " {{ vpc_id }}"
+    cidr: "{{ item.cidr }}"
+    az: "{{ item.availability_zone }}"
+    resource_tags:
+      Name: "{{ tag_name_kubernetes_private_subnet }}"
+      Environment: "{{ environment }}"
+  register: kubernetes_private_subnet
+  with_items: "{{ aws_subnet_private }}"
+
+- name: set fact kubernetes_private_subnet
+  set_fact:
+    private_subnet_id: "{{ kubernetes_private_subnet.results[0].subnet.id }}"

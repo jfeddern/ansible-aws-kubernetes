@@ -35,7 +35,7 @@ tag_name_kubernetes_node: "kubernetes-node-{{ aws_cluster_name }}"
 tag_name_kubernetes_elb: "kubernetes-elb-{{ aws_cluster_name }}"
 
 ###################################
-# Variables for Kubespray
+# Variables for Kubespray test
 ###################################
 # Valid bootstrap options (required): ubuntu, coreos, centos, none
 bootstrap_os: centos

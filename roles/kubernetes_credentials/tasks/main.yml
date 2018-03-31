@@ -5,7 +5,7 @@
 
 - name: print secret
   debug:
-    var: kops_secret
+    var: "{{ kops_secret.stdout }}"
 
 - name: Get Kubernetes Admin Passwort
   shell: "kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')"

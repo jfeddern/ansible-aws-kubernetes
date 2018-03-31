@@ -18,7 +18,7 @@
       subnet-id: "{{ public_subnet_id }}"
       state: ['available']
   register: available_nat_gateway
-  until: available_nat_gateway.result[0].nat_gateway_id.find('nat') != -1
+  until: available_nat_gateway.result[0].state.find('available') != -1
   retries: 20
   delay: 20
 

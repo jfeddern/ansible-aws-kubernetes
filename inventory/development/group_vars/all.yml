@@ -21,7 +21,10 @@ ec2_available_zone: eu-central-1a
 ec2_node_size: t2.medium
 ec2_kube_node_count: 3
 ec2_kube_master_count: 3
+
 kops_state_store: "{{ aws_s3_bucket_name }}/{{ stage }}"
+
+kubernetes_version: 1.8.7
 
 tag_name_kubernetes_vpc: "kubernetes-vpc-{{ stage }}-{{ aws_cluster_name }}"
 tag_name_kubernetes_internetgateway: "kubernetes-internetgw-{{ stage }}-{{ aws_cluster_name }}"

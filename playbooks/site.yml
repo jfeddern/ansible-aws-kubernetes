@@ -1,3 +1,3 @@
 ---
-import_playbooks: create_aws_infrastructure.yml
-import_playbooks: install_kubernetes.yml
+- import_playbooks: create_aws_infrastructure.yml
+- import_playbooks: install_kubernetes.yml

@@ -44,6 +44,7 @@ spec:
     weave:
       mtu: 8912
   nonMasqueradeCIDR: 100.64.0.0/10
+  sshKeyName: "{{ ec2_keypair }}"
   sshAccess:
   - 0.0.0.0/0
   subnets:

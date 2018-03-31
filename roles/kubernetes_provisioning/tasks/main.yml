@@ -6,10 +6,10 @@
     mode: 0755
 
 - name: Create Cluster Configuration
-  shell: "kops create cluster --node-count {{ ec2_kube_node_count }} --master-count {{ ec2_kube_master_count }} --cloud aws --image {{ ec2_image }} --zones {{ ec2_available_zone }} --master-zones {{ ec2_available_zone }} --dns-zone {{ private_hosted_zone_id }} --dns private --node-size {{ ec2_node_size }} --master-size {{ ec2_node_size }} --topology private --networking weave --vpc={{ vpc_id }} --ssh-public-key ~/.ssh/id_rsa.pub --state {{ kops_state_store }} --bastion {{ aws_cluster_name }}"
+  shell: "kops create cluster --node-count {{ ec2_kube_node_count }} --master-count {{ ec2_kube_master_count }} --cloud aws --image {{ ec2_image }} --zones {{ ec2_available_zone }} --master-zones {{ ec2_available_zone }} --dns-zone {{ private_hosted_zone_id }} --dns private --node-size {{ ec2_node_size }} --master-size {{ ec2_node_size }} --topology private --networking weave --vpc={{ vpc_id }} --state {{ kops_state_store }} --bastion {{ aws_cluster_name }}"
 
-- name: Create Cluster Secret
-  shell: "kops create secret --name {{ aws_cluster_name }} --state {{ kops_state_store }} sshpublickey admin -i ~/.ssh/id_rsa.pub"
+#- name: Create Cluster Secret
+#  shell: "kops create secret --name {{ aws_cluster_name }} --state {{ kops_state_store }} sshpublickey admin -i ~/.ssh/id_rsa.pub"
 
 - name: Configure the cluster from template
   shell: "kops replace -f /tmp/cluster.yml --name {{ aws_cluster_name }} --state {{ kops_state_store }}"

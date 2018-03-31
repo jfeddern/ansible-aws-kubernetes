@@ -9,4 +9,4 @@
     versioning: yes
     tags:
       Name: "{{ aws_s3_bucket_name | replace('s3://', '') }}"
-      Environment: "{{ environment }}"
+      Stage: "{{ stage }}"

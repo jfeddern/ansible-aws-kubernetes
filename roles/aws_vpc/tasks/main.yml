@@ -11,7 +11,7 @@
     dns_support: yes
     tags:
       Name: "{{ tag_name_kubernetes_vpc }}"
-      Environment: "{{ environment }}"
+      Stage: "{{ stage }}"
   register: vpc
 
 - name: set fact vpc_id

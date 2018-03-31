@@ -9,6 +9,19 @@
     allocation_id: "{{ allocation_id }}"
   register: nat_gateway
 
+- name: Wait until NAT-Gateway is available
+  ec2_vpc_nat_gateway_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      subnet-id: "{{ public_subnet_id }}"
+      state: ['available']
+  register: available_nat_gateway
+  until: available_nat_gateway.result[0].nat_gateway_id.find('nat') != -1
+  retries: 20
+  delay: 20
+
 - name: Set fact Nat Gateways IDs
   set_fact:
     nat_gateway_id: "{{ nat_gateway.nat_gateway_id }}"

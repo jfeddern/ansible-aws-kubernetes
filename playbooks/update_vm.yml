@@ -1,0 +1,5 @@
+---
+- name: Update VMs
+  hosts: all
+  roles:
+    - update_vm

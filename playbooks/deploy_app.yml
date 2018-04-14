@@ -3,7 +3,5 @@
   hosts: localhost
   connection: local
   gather_facts: False
-  vars_files:
-    - ../vars/credentials.yml
   roles:
     - deploy_app_hello_world

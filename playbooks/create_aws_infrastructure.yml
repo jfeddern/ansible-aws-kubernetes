@@ -3,8 +3,6 @@
   hosts: localhost
   connection: local
   gather_facts: False
-  vars_files:
-    - ../vars/credentials.yml
   roles:
     - aws_vpc
     - aws_internet_gateway

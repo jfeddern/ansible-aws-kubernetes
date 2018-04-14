@@ -1,9 +1,0 @@
----
-- name: Gather Facts about AWS Kubernetes Cluster
-  hosts: localhost
-  connection: local
-  gather_facts: False
-  vars_files:
-    - ../vars/credentials.yml
-  roles:
-    - aws_gather_facts

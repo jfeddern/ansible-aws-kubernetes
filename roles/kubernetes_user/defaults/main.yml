@@ -1,3 +1,0 @@
----
-kubernetes_admin_user_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/master/roles/kubernetes_user/files/admin-user.yml"
-kubernetes_clusterrolebinding_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/master/roles/kubernetes_user/files/clusterrolebinding.yml"

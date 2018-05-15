@@ -1,0 +1,15 @@
+---
+- name: Install rocket chat
+  helm:
+    host: localhost
+    chart:
+      name: memcached
+      version: 0.4.0
+      source:
+        type: repo
+        location: https://kubernetes-charts.storage.googleapis.com
+    state: present
+    name: my-memcached
+    namespace: default
+#- name: Deploy Hello World Application
+#  command: "kubectl apply -f {{ deployment_hello_world }}"

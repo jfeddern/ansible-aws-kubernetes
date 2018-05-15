@@ -1,0 +1,2 @@
+---
+deployment_rocketchat: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops_2.0/roles/deploy_app_rocketchat/files/deploy_rocketchat.yml"

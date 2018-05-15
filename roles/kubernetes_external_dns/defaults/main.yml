@@ -1,2 +1,2 @@
 ---
-kubernetes_external_dns_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/master/roles/kubernetes_external_dns/files/external-dns.yml"
+kubernetes_external_dns_file: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops_2.0/roles/kubernetes_external_dns/files/external-dns.yml"

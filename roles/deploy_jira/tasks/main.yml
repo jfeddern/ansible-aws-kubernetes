@@ -1,0 +1,3 @@
+---
+- name: Deploy Bitbucket Server
+  command: "kubectl apply -f {{ deployment_bitbucket }}"

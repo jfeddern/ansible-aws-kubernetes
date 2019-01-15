@@ -1,0 +1,2 @@
+---
+deployment_bitbucket: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops_2.0/roles/deploy_jira/files/jira.yml"

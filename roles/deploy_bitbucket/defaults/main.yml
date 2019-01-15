@@ -1,2 +1,2 @@
 ---
-deployment_bitbucket: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/master/roles/deploy_bitbucket/files/bitbucket.yml"
+deployment_bitbucket: "https://raw.githubusercontent.com/jfeddern/ansible-aws-kubernetes/kops_2.0/roles/deploy_bitbucket/files/bitbucket.yml"
